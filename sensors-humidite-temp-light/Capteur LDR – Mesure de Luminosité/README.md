@@ -22,8 +22,8 @@ Ce code lit la valeur d'un **capteur LDR** (luminosité) et contrôle une LED se
 | Cathode | GND (avec résistance) |
 
 
-  ![luminosité](../images/lumiere.jpeg)
-  
+ 
+
 ##Fonctionnement – DHT11 + ThingSpeak (from zero)
 
 1-Créer un compte ThingSpeak
@@ -85,3 +85,7 @@ Ce code lit la valeur d'un **capteur LDR** (luminosité) et contrôle une LED se
         Créer des alertes ou tableaux de bord IoT
         Utiliser les données dans Arduino/ESP32 ou Raspberry Pi pour d’autres projets
         Lire les champs Field1 (Température) et Field2 (Humidité) selon tes besoins
+
+
+        
+ ![luminosité](../images/lumiere.jpeg)
