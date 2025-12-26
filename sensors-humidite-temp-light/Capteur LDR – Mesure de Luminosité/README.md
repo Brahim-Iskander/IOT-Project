@@ -84,7 +84,7 @@ Ce code lit la valeur d'un **capteur LDR** (luminosité) et contrôle une LED se
         Intégrer les données dans une application web
         Créer des alertes ou tableaux de bord IoT
         Utiliser les données dans Arduino/ESP32 ou Raspberry Pi pour d’autres projets
-        Lire les champs Field1 (Température) et Field2 (Humidité) selon tes besoins
+        Lire les champs Field1  selon tes besoins
 
 
         

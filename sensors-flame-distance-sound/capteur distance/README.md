@@ -1,3 +1,27 @@
+Ultrasonic Sensor – ESP32 Project
+
+Description:
+Ce code lit la distance mesurée par le capteur ultrason 3 broches et envoie les données sur ThingSpeak pour visualisation.
+
+Matériel:
+ESP32
+Capteur Ultrasonic 3 broches
+LED
+Câbles de connexion
+
+Connexion des composants:
+| Ultrasonic | ESP32   |
+| ---------- | ------- |
+| VCC        | 5V      |
+| GND        | GND     |
+| SIG        | GPIO 10 |
+
+| LED     | ESP32                 |
+| ------- | --------------------- |
+| Anode   | GPIO 7                |
+| Cathode | GND (avec résistance) |
+
+
 # DHT11 Sensor – ESP32 Project
 
 ## Description
@@ -21,10 +45,10 @@ Ce code lit la **température et l’humidité** avec le capteur DHT11 et affich
     Aller sur https://thingspeak.com
     Cliquer sur Sign Up et créer un compte gratuit
 
-2-Créer un channel pour le DHT11
+2-Créer un channel pour  Ultrasonic Sensor
     Une fois connecté, cliquer sur Channels → My Channels → New Channel
-    Nommer le channel, par exemple : ESP32 Temperature & Humidity
-    Activer Field 1 pour la Température et Field 2 pour l’Humidité
+    Nommer le channel, par exemple : ESP32 Ultrasonic Sensor
+    Activer Field 1 pour la Ultrasonic Sensor
     Cliquer sur Save Channel
 
 3-Récupérer la Write API Key
@@ -46,9 +70,10 @@ Ce code lit la **température et l’humidité** avec le capteur DHT11 et affich
         L’ESP32 ne supporte pas le 5 GHz.
         Même si ton réseau est visible sur les deux bandes (2,4 GHz et 5 GHz), l’ESP32 ne pourra se connecter qu’au 2,4 GHz.
 
-5-Connecter le DHT11 à l’ESP32
+5-Connecter le Ultrasonic et LED à l’ESP32
     VCC → 5V
-    DATA → GPIO 15
+    DATA → GPIO 10
+    LED → GPIO 7
     GND → GND
 
 6-Téléverser le code sur l’ESP32
@@ -61,7 +86,7 @@ Ce code lit la **température et l’humidité** avec le capteur DHT11 et affich
     Les données sont envoyées toutes les 15 secondes sur ThingSpeak
 8-Voir les données sur ThingSpeak
     Aller sur le channel créé
-    Les valeurs de Field1 (Température) et Field2 (Humidité) sont mises à jour en temps réel
+    La valeur de Field1 est  mise à jour en temps réel
     Tu peux créer des graphes ou exporter les données
 
 9-Utiliser les données dans un autre projet
@@ -74,7 +99,7 @@ Ce code lit la **température et l’humidité** avec le capteur DHT11 et affich
         Intégrer les données dans une application web
         Créer des alertes ou tableaux de bord IoT
         Utiliser les données dans Arduino/ESP32 ou Raspberry Pi pour d’autres projets
-        Lire les champs Field1 et Field2 selon tes besoins
+        Lire les champs Field1 selon tes besoins
 
- ![humidite ](../images/humidite.jpeg)
- ![temerature ](../images/temerature.jpeg)
+ ![ultrasonic ](../images/distance.jpeg)
+
