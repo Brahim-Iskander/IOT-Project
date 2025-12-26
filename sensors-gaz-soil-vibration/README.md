@@ -123,3 +123,6 @@ Les projets académiques
 Les applications Smart Home
 
 Les systèmes de surveillance environnementale IoT
+
+
+ ![gaz-sol](../images/sol-gaz.jpeg)

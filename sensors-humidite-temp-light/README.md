@@ -129,6 +129,6 @@ Les projets académiques
 Les applications Smart Home
 Les systèmes de surveillance IoT
 
-
+ ![dht](../images/dht.jpeg)
 
 

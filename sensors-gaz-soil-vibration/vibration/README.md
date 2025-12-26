@@ -78,4 +78,5 @@ Connexion des composants:
         Utiliser les données dans Arduino/ESP32 ou Raspberry Pi pour d’autres projets
         Lire les champs Field1 selon tes besoins
 
- ![ultrasonic ](../images/vibration.jpeg)
+ ![vibration ](../../images/vibration.jpeg)
+ ![vibration ](../images/vibration.jpeg)
