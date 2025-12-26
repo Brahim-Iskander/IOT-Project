@@ -60,21 +60,21 @@ Rôle des bibliothèques :
 🔹 Capteur PIR
 | Broche PIR | ESP32  |
 | ---------- | ------ |
-| VCC        | 3.3V   |
+| VCC        | 5V   |
 | GND        | GND    |
 | OUT        | GPIO 5 |
 
 🔹 Capteur LDR
 | LDR    | ESP32   |
 | ------ | ------- |
-| VCC    | 3.3V    |
+| VCC    | 5V    |
 | GND    | GND     |
 | Signal | GPIO 12 |
 
 🔹 Capteur DHT11
 | DHT11 | ESP32   |
 | ----- | ------- |
-| VCC   | 3.3V    |
+| VCC   | 5V    |
 | DATA  | GPIO 15 |
 | GND   | GND     |
 
@@ -130,5 +130,3 @@ Les applications Smart Home
 Les systèmes de surveillance IoT
 
  ![dht](../images/dht.jpeg)
-
-

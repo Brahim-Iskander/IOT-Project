@@ -63,6 +63,20 @@ Le programme utilise les bibliothèques suivantes :
 | VCC              | 5V   |
 | GND              | GND    |
 
+IMPORTANT:
+Simulation des capteurs sous Wokwi:
+    Tableau récapitulatif des capteurs réels et de leur équivalent dans l’environnement de simulation Wokwi:
+
+    Le tableau ci-dessous récapitule les capteurs réels utilisés dans le projet, leur disponibilité dans l’environnement de simulation Wokwi, ainsi que les composants de remplacement employés afin de simuler leur fonctionnement.
+
+
+    | Capteur réel              | Disponibilité Wokwi | Composant de remplacement | Rôle dans la simulation            |
+    | ------------------------- | ------------------- | ------------------------- | ---------------------------------- |
+    | Capteur d’humidité du sol | Non disponible      | Potentiomètre             | Simule le niveau d’humidité du sol |
+    | Capteur de vibration      | Non disponible      | Bouton poussoir           | Simule la détection de vibration   |
+
+
+
 5️⃣ Fonctionnement du Système
 
 L’ESP32 se connecte au réseau WiFi (2,4 GHz uniquement).

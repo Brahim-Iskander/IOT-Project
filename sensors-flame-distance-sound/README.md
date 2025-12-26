@@ -56,7 +56,7 @@ Le programme utilise les bibliothèques suivantes :
 | Broche Sound AO | ESP32     |
 | --------------- | --------- |
 | AO              | GPIO 4    |
-| VCC             | 3.3V / 5V |
+| VCC             | 5V |
 | GND             | GND       |
 
 🔹 LED
@@ -64,6 +64,22 @@ Le programme utilise les bibliothèques suivantes :
 | ------- | --------------------- |
 | Anode   | GPIO 7                |
 | Cathode | GND (avec résistance) |
+
+
+IMPORTANT:
+Simulation des capteurs sous Wokwi:
+    Tableau récapitulatif des capteurs réels et de leur équivalent dans l’environnement de simulation Wokwi:
+
+    Le tableau ci-dessous récapitule les capteurs réels utilisés dans le projet, leur disponibilité dans l’environnement de simulation Wokwi, ainsi que les composants de remplacement employés afin de simuler leur fonctionnement.
+
+
+    | Capteur réel                 | Disponibilité Wokwi | Composant de remplacement    | Rôle dans la simulation                |
+    | ---------------------------- | ------------------- | ---------------------------- | -------------------------------------- |
+    | Capteur de son               | Non disponible      | Potentiomètre                | Simule le niveau sonore                |
+    | Capteur de flamme            | Non disponible      | Bouton poussoir              | Simule la détection de flamme (ON/OFF) |
+    | Capteur ultrason (3 broches) | Non disponible      | Capteur ultrason (4 broches) | Mesure de distance (Trig / Echo)       |
+
+
 
 5️⃣ Fonctionnement du Système
 
