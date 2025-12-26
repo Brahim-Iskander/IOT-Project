@@ -1,33 +1,32 @@
-Sound Sensor – ESP32 Project
-
+Vibration Sensor – ESP32 Project
 
 Description:
-Ce code lit le niveau sonore avec un capteur analogique et affiche les valeurs sur le moniteur série. Les données sont envoyées sur ThingSpeak.
-
+Ce code lit l’état du capteur de vibration (digital) et affiche les données sur le moniteur série.
 
 Matériel:
 ESP32
-Capteur sonore analogique
+Capteur de vibration (DFR0027)
 Câbles de connexion
 
 Connexion des composants:
-| Sound Sensor | ESP32        |
-| ------------ | ------------ |
-| VCC          | 5V         |
-| GND          | GND          |
-| AO           | GPIO 4 (ADC) |
+| Capteur Vibration | ESP32  |
+| ----------------- | ------ |
+| VCC               | 5V   |
+| GND               | GND    |
+| DO                | GPIO 4 |
 
 
-##Fonctionnement – sound + ThingSpeak (from zero)
+
+##Fonctionnement – Vibration Sensor + ThingSpeak (from zero)
 
 1-Créer un compte ThingSpeak
     Aller sur https://thingspeak.com
     Cliquer sur Sign Up et créer un compte gratuit
 
-2-Créer un channel pour le DHT11
+2-Créer un channel pour  Ultrasonic Sensor
     Une fois connecté, cliquer sur Channels → My Channels → New Channel
-    Nommer le channel, par exemple : ESP32 Sound Sensor
-    Activer Field 1 pour le sound Sensor
+    Nommer le channel, par exemple : ESP32 Vibration Sensor
+    Activer Field 1 pour Vibration Sensor
     Cliquer sur Save Channel
 
 3-Récupérer la Write API Key
@@ -49,7 +48,7 @@ Connexion des composants:
         L’ESP32 ne supporte pas le 5 GHz.
         Même si ton réseau est visible sur les deux bandes (2,4 GHz et 5 GHz), l’ESP32 ne pourra se connecter qu’au 2,4 GHz.
 
-5-Connecter le capteur sonore à l’ESP32
+5-Connecter le capteur de Vibration à l’ESP32
     VCC → 5V
     DATA → GPIO 4
     GND → GND
@@ -64,7 +63,7 @@ Connexion des composants:
     Les données sont envoyées toutes les 15 secondes sur ThingSpeak
 8-Voir les données sur ThingSpeak
     Aller sur le channel créé
-    Les valeurs de Field1 est mise à jour en temps réel
+    La valeur de Field1 est  mise à jour en temps réel
     Tu peux créer des graphes ou exporter les données
 
 9-Utiliser les données dans un autre projet
@@ -79,4 +78,4 @@ Connexion des composants:
         Utiliser les données dans Arduino/ESP32 ou Raspberry Pi pour d’autres projets
         Lire les champs Field1 selon tes besoins
 
- ![sound](../images/sound.jpeg)
+ ![ultrasonic ](../images/vibration.jpeg)

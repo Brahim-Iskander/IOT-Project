@@ -22,24 +22,7 @@ Connexion des composants:
 | Cathode | GND (avec résistance) |
 
 
-# DHT11 Sensor – ESP32 Project
-
-## Description
-Ce code lit la **température et l’humidité** avec le capteur DHT11 et affiche les données sur le moniteur série.
-
-## Matériel
-- ESP32
-- DHT11
-- Câbles de connexion
-
-## Connexion des composants
-| DHT11 | ESP32 |
-|-------|-------|
-| VCC | 5V |
-| DATA | GPIO 15 |
-| GND | GND |
-
-##Fonctionnement – DHT11 + ThingSpeak (from zero)
+##Fonctionnement – Ultrasonic + ThingSpeak (from zero)
 
 1-Créer un compte ThingSpeak
     Aller sur https://thingspeak.com

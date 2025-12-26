@@ -36,7 +36,7 @@ Connexion des composants:
 2-Créer un channel pour le DHT11
     Une fois connecté, cliquer sur Channels → My Channels → New Channel
     Nommer le channel, par exemple :ESP32 Flame Sensor
-    Activer Field 1 pour la luminosité mesurée
+    Activer Field 1 pour la Flame Sensor
     Cliquer sur Save Channel
 
 3-Récupérer la Write API Key

@@ -1,33 +1,35 @@
-Sound Sensor – ESP32 Project
-
+Soil Moisture Sensor – ESP32 Project
 
 Description:
-Ce code lit le niveau sonore avec un capteur analogique et affiche les valeurs sur le moniteur série. Les données sont envoyées sur ThingSpeak.
-
+Ce code lit la valeur analogique de l’humidité du sol et affiche les données sur le moniteur série.
 
 Matériel:
 ESP32
-Capteur sonore analogique
+Capteur d’humidité du sol
 Câbles de connexion
 
+
+
 Connexion des composants:
-| Sound Sensor | ESP32        |
-| ------------ | ------------ |
-| VCC          | 5V         |
-| GND          | GND          |
-| AO           | GPIO 4 (ADC) |
+| Capteur Humidité | ESP32   |
+| ---------------- | ------- |
+| VCC              | 5V    |
+| GND              | GND     |
+| Signal (AO)      | GPIO 13 |
 
 
-##Fonctionnement – sound + ThingSpeak (from zero)
+
+
+##Fonctionnement – Soil Moisture + ThingSpeak (from zero)
 
 1-Créer un compte ThingSpeak
     Aller sur https://thingspeak.com
     Cliquer sur Sign Up et créer un compte gratuit
 
-2-Créer un channel pour le DHT11
+2-Créer un channel pour  Ultrasonic Sensor
     Une fois connecté, cliquer sur Channels → My Channels → New Channel
-    Nommer le channel, par exemple : ESP32 Sound Sensor
-    Activer Field 1 pour le sound Sensor
+    Nommer le channel, par exemple : ESP32 Soil Moisture
+    Activer Field 1 pour Soil Moisture
     Cliquer sur Save Channel
 
 3-Récupérer la Write API Key
@@ -49,9 +51,9 @@ Connexion des composants:
         L’ESP32 ne supporte pas le 5 GHz.
         Même si ton réseau est visible sur les deux bandes (2,4 GHz et 5 GHz), l’ESP32 ne pourra se connecter qu’au 2,4 GHz.
 
-5-Connecter le capteur sonore à l’ESP32
+5-Connecter le capteur de Soil Moisture à l’ESP32
     VCC → 5V
-    DATA → GPIO 4
+    DATA → GPIO 13
     GND → GND
 
 6-Téléverser le code sur l’ESP32
@@ -64,7 +66,7 @@ Connexion des composants:
     Les données sont envoyées toutes les 15 secondes sur ThingSpeak
 8-Voir les données sur ThingSpeak
     Aller sur le channel créé
-    Les valeurs de Field1 est mise à jour en temps réel
+    La valeur de Field1 est  mise à jour en temps réel
     Tu peux créer des graphes ou exporter les données
 
 9-Utiliser les données dans un autre projet
@@ -77,6 +79,7 @@ Connexion des composants:
         Intégrer les données dans une application web
         Créer des alertes ou tableaux de bord IoT
         Utiliser les données dans Arduino/ESP32 ou Raspberry Pi pour d’autres projets
-        Lire les champs Field1 selon tes besoins
+        Lire la champ Field1 selon tes besoins
 
- ![sound](../images/sound.jpeg)
+ ![ultrasonic ](../images/soil.jpeg)
+
