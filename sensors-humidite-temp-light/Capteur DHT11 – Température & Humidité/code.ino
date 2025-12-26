@@ -7,8 +7,8 @@
 
 DHT dht(DHT_PIN, DHT_TYPE);
 
-const char* ssid = "iPhone";
-const char* password = "12345678901";
+const char* ssid = "TON_SSID_2.4GHz";  
+const char* password = "TON_MOT_DE_PASSE";
 String apiKey = "QFFVQ0KN51FUHFP7";
 
 void setup() {

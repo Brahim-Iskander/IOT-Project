@@ -30,11 +30,21 @@ Ce code lit la **température et l’humidité** avec le capteur DHT11 et affich
 3-Récupérer la Write API Key
     Dans le channel, cliquer sur API Keys
     Copier la clé Write API Key (exemple : QFFVQ0KN51FUHFP7)
+    
 4-Modifier le code ESP32
-    Dans ton code, remplacer String apiKey = "TON_WRITE_API_KEY"; par ta clé API copiée
+   Dans ton code, tu dois configurer correctement le WiFi et la clé ThingSpeak pour que l’ESP32 fonctionne correctement. Voici comment faire :
 
-    Exemple :
-    String apiKey = "QFFVQ0KN51FUHFP7";
+        // ===== WiFi =====
+        const char* ssid = "TON_SSID_2.4GHz";      // Remplace par le nom de ton réseau 2,4 GHz
+        const char* password = "TON_MOT_DE_PASSE"; // Remplace par ton mot de passe WiFi
+
+        // ===== ThingSpeak API Key =====
+        String apiKey = "TON_WRITE_API_KEY";       // Remplace par ta Write API Key de ton channel ThingSpeak
+
+4.1 – Modifier la bande WiFi pour ESP32
+    Pourquoi modifier la bande WiFi:
+        L’ESP32 ne supporte pas le 5 GHz.
+        Même si ton réseau est visible sur les deux bandes (2,4 GHz et 5 GHz), l’ESP32 ne pourra se connecter qu’au 2,4 GHz.
 
 5-Connecter le DHT11 à l’ESP32
     VCC → 5V
