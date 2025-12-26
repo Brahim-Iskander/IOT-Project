@@ -11,7 +11,7 @@ Ce code lit le capteur **PIR** pour détecter le mouvement et allume une LED lor
 ## Connexion des composants
 | PIR | ESP32 |
 |-----|-------|
-| VCC | 3.3V |
+| VCC | 5V |
 | GND | GND |
 | OUT | GPIO 5 |
 

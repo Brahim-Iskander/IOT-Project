@@ -11,7 +11,7 @@ Ce code lit la valeur d'un **capteur LDR** (luminosité) et contrôle une LED se
 ## Connexion des composants
 | LDR | ESP32 |
 |-----|-------|
-| VCC | 3.3V |
+| VCC | 5V |
 | GND | GND |
 | Signal | GPIO 12 |
 
