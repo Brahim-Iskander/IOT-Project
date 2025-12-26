@@ -13,7 +13,7 @@ Câbles de connexion
 Connexion des composants:
 | Sound Sensor | ESP32        |
 | ------------ | ------------ |
-| VCC          | 3.3V         |
+| VCC          | 5V         |
 | GND          | GND          |
 | AO           | GPIO 4 (ADC) |
 
