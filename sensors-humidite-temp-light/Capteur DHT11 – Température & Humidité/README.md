@@ -77,4 +77,4 @@ Ce code lit la **température et l’humidité** avec le capteur DHT11 et affich
         Lire les champs Field1 (Température) et Field2 (Humidité) selon tes besoins
 
  ![humidite ](../images/humidite.jpeg)
-  ![temerature ](../images/temerature.jpeg)
+ ![temerature ](../images/temerature.jpeg)
