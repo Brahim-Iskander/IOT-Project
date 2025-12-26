@@ -83,4 +83,4 @@ Ce code lit la valeur d'un **capteur LDR** (luminosité) et contrôle une LED se
         Lire les champs Field1 (Température) et Field2 (Humidité) selon tes besoins
 
 
-        ![luminosité](images/lumiere.png)
+        ![luminosité](images/lumiere.jpeg)
