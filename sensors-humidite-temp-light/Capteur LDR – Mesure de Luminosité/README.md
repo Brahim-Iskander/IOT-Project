@@ -89,3 +89,4 @@ Ce code lit la valeur d'un **capteur LDR** (luminosité) et contrôle une LED se
 
         
  ![luminosité](../images/lumiere.jpeg)
+  ![luminosité](../images/lumiere2.jpeg)
