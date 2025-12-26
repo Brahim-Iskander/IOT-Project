@@ -6,7 +6,7 @@
 
 const char* ssid = "TON_SSID_2.4GHz";  
 const char* password = "TON_MOT_DE_PASSE";
-String apiKey = "ZY59RYO41TC9A23L";
+String apiKey = "TON_WRITE_API_KEY";
 
 void setup() {
   Serial.begin(115200);
