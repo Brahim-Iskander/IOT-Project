@@ -30,7 +30,7 @@ Ce code lit la **température et l’humidité** avec le capteur DHT11 et affich
 3-Récupérer la Write API Key
     Dans le channel, cliquer sur API Keys
     Copier la clé Write API Key (exemple : QFFVQ0KN51FUHFP7)
-    
+
 4-Modifier le code ESP32
    Dans ton code, tu dois configurer correctement le WiFi et la clé ThingSpeak pour que l’ESP32 fonctionne correctement. Voici comment faire :
 
@@ -75,3 +75,6 @@ Ce code lit la **température et l’humidité** avec le capteur DHT11 et affich
         Créer des alertes ou tableaux de bord IoT
         Utiliser les données dans Arduino/ESP32 ou Raspberry Pi pour d’autres projets
         Lire les champs Field1 (Température) et Field2 (Humidité) selon tes besoins
+
+ ![humidite ](../images/humidite.jpeg)
+  ![temerature ](../images/temerature.jpeg)
