@@ -17,12 +17,17 @@ String apiKey = "ZY59RYO41TC9A23L";
 #define SOUND_AO 4
 const int SOUND_THRESHOLD = 2000;
 
+// Variables partagées
+volatile int flame = 0;
+volatile float distance = 0;
+volatile int soundLevel = 0;
+
 void setup() {
   Serial.begin(115200);
 
   pinMode(FLAME_PIN, INPUT_PULLUP);
   pinMode(LED_PIN, OUTPUT);
-  pinMode(ULTRA_PIN, INPUT);  // Pin SIG comme INPUT pour pulseIn
+  pinMode(ULTRA_PIN, INPUT);
 
   analogReadResolution(12);
 
@@ -34,59 +39,86 @@ void setup() {
     Serial.print(".");
   }
   Serial.println("\nWiFi Connected");
+
+  // ===== CREATE TASKS =====
+  xTaskCreate(flameTask, "Flame Task", 2048, NULL, 1, NULL);
+  xTaskCreate(ultraTask, "Ultra Task", 4096, NULL, 1, NULL);
+  xTaskCreate(soundTask, "Sound Task", 2048, NULL, 1, NULL);
+  xTaskCreate(thingSpeakTask, "ThingSpeak Task", 4096, NULL, 1, NULL);
 }
 
 void loop() {
-  // ----- FLAME SENSOR -----
-  int flame = digitalRead(FLAME_PIN);
-  Serial.print("Flame: ");
-  Serial.println((flame == LOW) ? "Detected" : "None");
+  // Loop vide, tout est géré par les tâches
+  delay(1000);
+}
 
-  // ----- ULTRASONIC 3 PIN -----
-  // Trigger en sortie courte
-  pinMode(ULTRA_PIN, OUTPUT);
-  digitalWrite(ULTRA_PIN, LOW);
-  delayMicroseconds(2);
-  digitalWrite(ULTRA_PIN, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(ULTRA_PIN, LOW);
-
-  // Lecture écho
-  pinMode(ULTRA_PIN, INPUT);
-  long duration = pulseIn(ULTRA_PIN, HIGH, 30000); // timeout 30ms
-  float distance = duration * 0.034 / 2;
-  Serial.print("📏 Distance: ");
-  Serial.println(distance);
-
-  if (distance > 0 && distance < 10) {
-    Serial.println(" Object very close!");
-    digitalWrite(LED_PIN, HIGH);
-  } else {
-    digitalWrite(LED_PIN, LOW);
+// ===== TASK FLAME =====
+void flameTask(void *pvParameters) {
+  for (;;) {
+    flame = digitalRead(FLAME_PIN);
+    Serial.print("Flame: ");
+    Serial.println((flame == LOW) ? "Detected" : "None");
+    vTaskDelay(1000 / portTICK_PERIOD_MS); // 1s
   }
+}
 
-  // ----- SOUND SENSOR -----
-  int soundLevel = analogRead(SOUND_AO);
-  Serial.print("🎵 Sound level: ");
-  Serial.println(soundLevel);
-  bool soundDetected = soundLevel > SOUND_THRESHOLD;
-  Serial.println(soundDetected ? " Sound detected!" : "Silence");
+// ===== TASK ULTRASONIC =====
+void ultraTask(void *pvParameters) {
+  for (;;) {
+    pinMode(ULTRA_PIN, OUTPUT);
+    digitalWrite(ULTRA_PIN, LOW);
+    delayMicroseconds(2);
+    digitalWrite(ULTRA_PIN, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(ULTRA_PIN, LOW);
 
-  // ===== SEND TO THINGSPEAK =====
-  if (WiFi.status() == WL_CONNECTED) {
-    HTTPClient http;
-    String url = "http://api.thingspeak.com/update?api_key=" + apiKey +
-                 "&field1=" + String(flame == LOW ? 1 : 0) +
-                 "&field2=" + String(distance) +
-                 "&field3=" + String(soundLevel);
-    http.begin(url);
-    int httpCode = http.GET();
-    http.end();
+    pinMode(ULTRA_PIN, INPUT);
+    long duration = pulseIn(ULTRA_PIN, HIGH, 30000);
+    distance = duration * 0.034 / 2;
 
-    if (httpCode > 0) Serial.println("Data sent to ThingSpeak");
-    else Serial.println(" Failed to send data");
+    Serial.print("📏 Distance: ");
+    Serial.println(distance);
+
+    if (distance > 0 && distance < 10) {
+      Serial.println(" Object very close!");
+      digitalWrite(LED_PIN, HIGH);
+    } else {
+      digitalWrite(LED_PIN, LOW);
+    }
+
+    vTaskDelay(500 / portTICK_PERIOD_MS); // 0.5s
   }
+}
 
-  Serial.println("-------------------------");
-  delay(15000);
+// ===== TASK SOUND =====
+void soundTask(void *pvParameters) {
+  for (;;) {
+    soundLevel = analogRead(SOUND_AO);
+    Serial.print("🎵 Sound level: ");
+    Serial.println(soundLevel);
+    bool soundDetected = soundLevel > SOUND_THRESHOLD;
+    Serial.println(soundDetected ? " Sound detected!" : "Silence");
+    vTaskDelay(500 / portTICK_PERIOD_MS); // 0.5s
+  }
+}
+
+// ===== TASK THINGSPEAK =====
+void thingSpeakTask(void *pvParameters) {
+  for (;;) {
+    if (WiFi.status() == WL_CONNECTED) {
+      HTTPClient http;
+      String url = "http://api.thingspeak.com/update?api_key=" + apiKey +
+                   "&field1=" + String(flame == LOW ? 1 : 0) +
+                   "&field2=" + String(distance) +
+                   "&field3=" + String(soundLevel);
+      http.begin(url);
+      int httpCode = http.GET();
+      http.end();
+
+      if (httpCode > 0) Serial.println("Data sent to ThingSpeak");
+      else Serial.println("Failed to send data");
+    }
+    Serial.println("-------------------------");
+    vTaskDelay(15000 / portTICK_PERIOD_MS); // 15s
+  }
 }

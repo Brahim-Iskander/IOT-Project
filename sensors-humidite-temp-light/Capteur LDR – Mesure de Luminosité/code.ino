@@ -8,6 +8,11 @@ const char* ssid = "TON_SSID_2.4GHz";
 const char* password = "TON_MOT_DE_PASSE";
 String apiKey = "QFFVQ0KN51FUHFP7";
 
+unsigned long previousThingSpeakMillis = 0;
+const unsigned long thingSpeakInterval = 15000; // 15s
+
+int ldrValue = 0;
+
 void setup() {
   Serial.begin(115200);
   pinMode(LED_PIN, OUTPUT);
@@ -19,28 +24,32 @@ void setup() {
     delay(500);
     Serial.print(".");
   }
-  Serial.println("\nWiFi Connected");
+  Serial.println("\n✅ WiFi Connected");
 }
 
 void loop() {
-  int ldrValue = analogRead(LDR_PIN);
-  Serial.print("LDR: ");
+  unsigned long currentMillis = millis();
+
+  // ===== Read LDR continuously =====
+  ldrValue = analogRead(LDR_PIN);
+  Serial.print("💡 LDR: ");
   Serial.println(ldrValue);
 
-  if (ldrValue < 1500) digitalWrite(LED_PIN, HIGH);
-  else digitalWrite(LED_PIN, LOW);
+  digitalWrite(LED_PIN, ldrValue < 1500 ? HIGH : LOW);
 
-  // Send data to ThingSpeak
-  if (WiFi.status() == WL_CONNECTED) {
-    HTTPClient http;
-    String url = "http://api.thingspeak.com/update?api_key=" + apiKey +
-                 "&field1=" + String(ldrValue);
-    http.begin(url);
-    int httpCode = http.GET();
-    http.end();
+  // ===== Send to ThingSpeak every 15s =====
+  if (currentMillis - previousThingSpeakMillis >= thingSpeakInterval) {
+    previousThingSpeakMillis = currentMillis;
 
-    Serial.println(httpCode > 0 ? " Data sent to ThingSpeak" : "Failed to send");
+    if (WiFi.status() == WL_CONNECTED) {
+      HTTPClient http;
+      String url = "http://api.thingspeak.com/update?api_key=" + apiKey +
+                   "&field1=" + String(ldrValue);
+      http.begin(url);
+      int httpCode = http.GET();
+      http.end();
+
+      Serial.println(httpCode > 0 ? "📤 Data sent to ThingSpeak" : "❌ Failed to send");
+    }
   }
-
-  delay(15000);
 }

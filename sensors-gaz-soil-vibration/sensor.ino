@@ -7,21 +7,25 @@ const char* password = "TON_MOT_DE_PASSE";
 String apiKey = "TON_WRITE_API_KEY";
 
 // ===== GAS SENSOR =====
-#define GAS_DIGITAL 2   // Connect gas sensor DO to GPIO2
+#define GAS_DIGITAL 2
 
 // ===== SOIL MOISTURE =====
-#define SOIL_PIN 13     // ADC pin
+#define SOIL_PIN 13
 
-// ===== VIBRATION SENSOR (DFR0027) =====
-#define VIB_SENSOR 4    // Connect vibration sensor DO to GPIO4
+// ===== VIBRATION SENSOR =====
+#define VIB_SENSOR 4
+
+// Variables partagées
+volatile int gasState = 0;
+volatile int soilValue = 0;
+volatile int vibState = 0;
 
 void setup() {
   Serial.begin(115200);
 
-  // Configure pins
-  pinMode(GAS_DIGITAL, INPUT);            // Gas sensor digital input
-  pinMode(VIB_SENSOR, INPUT_PULLUP);      // Vibration sensor with internal pull-up
-  analogReadResolution(12);               // For soil moisture (0–4095)
+  pinMode(GAS_DIGITAL, INPUT);
+  pinMode(VIB_SENSOR, INPUT_PULLUP);
+  analogReadResolution(12);
 
   // Connect to WiFi
   WiFi.begin(ssid, password);
@@ -31,43 +35,67 @@ void setup() {
     Serial.print(".");
   }
   Serial.println("\nWiFi Connected");
+
+  // Create tasks
+  xTaskCreate(gasTask, "Gas Task", 2048, NULL, 1, NULL);
+  xTaskCreate(soilTask, "Soil Task", 2048, NULL, 1, NULL);
+  xTaskCreate(vibrationTask, "Vibration Task", 2048, NULL, 1, NULL);
+  xTaskCreate(thingSpeakTask, "ThingSpeak Task", 4096, NULL, 1, NULL);
 }
 
 void loop() {
-  // ----- GAS SENSOR (digital) -----
-  int gasState = digitalRead(GAS_DIGITAL);
-  Serial.print("🧪 Gas detected: ");
-  Serial.println(gasState ? "YES" : "NO");
+  // loop vide, tout est géré par les tâches
+  delay(1000);
+}
 
-  // ----- SOIL MOISTURE (analog) -----
-  int soilValue = analogRead(SOIL_PIN);
-  Serial.print("🌱 Soil moisture: ");
-  Serial.println(soilValue);
-  if (soilValue < 1500) {   // Adjust threshold
-    Serial.println(" Soil is dry!");
+// ===== GAS SENSOR TASK =====
+void gasTask(void *pvParameters) {
+  for (;;) {
+    gasState = digitalRead(GAS_DIGITAL);
+    Serial.print("🧪 Gas detected: ");
+    Serial.println(gasState ? "YES" : "NO");
+    vTaskDelay(1000 / portTICK_PERIOD_MS);
   }
+}
 
-  // ----- VIBRATION SENSOR (digital) -----
-  int vibState = !digitalRead(VIB_SENSOR); // Invert logic: 1 = vibration detected
-  Serial.print("📳 Vibration detected: ");
-  Serial.println(vibState ? "YES" : "NO");
-
-  // ===== SEND DATA TO THINGSPEAK =====
-  if (WiFi.status() == WL_CONNECTED) {
-    HTTPClient http;
-    String url = "http://api.thingspeak.com/update?api_key=" + apiKey +
-                 "&field1=" + String(gasState) +
-                 "&field2=" + String(soilValue) +
-                 "&field3=" + String(vibState);
-
-    http.begin(url);
-    int httpCode = http.GET();
-    http.end();
-
-    if (httpCode > 0) Serial.println("Data sent to ThingSpeak");
-    else Serial.println("Failed to send data");
+// ===== SOIL SENSOR TASK =====
+void soilTask(void *pvParameters) {
+  for (;;) {
+    soilValue = analogRead(SOIL_PIN);
+    Serial.print("🌱 Soil moisture: ");
+    Serial.println(soilValue);
+    if (soilValue < 1500) Serial.println(" Soil is dry!");
+    vTaskDelay(1000 / portTICK_PERIOD_MS);
   }
+}
 
-  Serial.println("-------------------------");
-  delay(15000); // ThingSpeak requires at least 15s between updates
+// ===== VIBRATION SENSOR TASK =====
+void vibrationTask(void *pvParameters) {
+  for (;;) {
+    vibState = !digitalRead(VIB_SENSOR); // Invert logic
+    Serial.print("📳 Vibration detected: ");
+    Serial.println(vibState ? "YES" : "NO");
+    vTaskDelay(500 / portTICK_PERIOD_MS);
+  }
+}
+
+// ===== THINGSPEAK TASK =====
+void thingSpeakTask(void *pvParameters) {
+  for (;;) {
+    if (WiFi.status() == WL_CONNECTED) {
+      HTTPClient http;
+      String url = "http://api.thingspeak.com/update?api_key=" + apiKey +
+                   "&field1=" + String(gasState) +
+                   "&field2=" + String(soilValue) +
+                   "&field3=" + String(vibState);
+      http.begin(url);
+      int httpCode = http.GET();
+      http.end();
+
+      if (httpCode > 0) Serial.println("Data sent to ThingSpeak");
+      else Serial.println("Failed to send data");
+    }
+    Serial.println("-------------------------");
+    vTaskDelay(15000 / portTICK_PERIOD_MS); // 15s
+  }
 }
